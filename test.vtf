@@ -1,0 +1,147 @@
+atom 1	radius 0.5 name particle1
+atom 2	radius 0.5 name particle1
+atom 3	radius 0.5 name particle1
+atom 4	radius 0.5 name particle1
+atom 5	radius 0.5 name particle1
+atom 6	radius 0.5 name particle1
+atom 7	radius 0.5 name particle1
+atom 8	radius 0.5 name particle1
+atom 9	radius 0.5 name particle1
+atom 10	radius 0.5 name particle1
+atom 11	radius 0.5 name particle1
+atom 12	radius 0.5 name particle1
+atom 13	radius 0.5 name particle1
+atom 14	radius 0.5 name particle1
+atom 15	radius 0.5 name particle1
+atom 16	radius 0.5 name particle1
+atom 17	radius 0.5 name particle1
+atom 18	radius 0.5 name particle1
+atom 19	radius 0.5 name particle1
+atom 20	radius 0.5 name particle1
+atom 21	radius 0.5 name particle1
+atom 22	radius 0.5 name particle1
+atom 23	radius 0.5 name particle1
+atom 24	radius 0.5 name particle1
+atom 25	radius 0.5 name particle1
+atom 26	radius 0.5 name particle1
+atom 27	radius 0.5 name particle1
+atom 28	radius 0.5 name particle1
+atom 29	radius 0.5 name particle1
+atom 30	radius 0.5 name particle1
+atom 31	radius 0.5 name particle1
+atom 32	radius 0.5 name particle1
+atom 33	radius 0.5 name particle1
+atom 34	radius 0.5 name particle1
+atom 35	radius 0.5 name particle1
+atom 36	radius 0.5 name particle1
+atom 37	radius 0.5 name particle1
+atom 38	radius 0.5 name particle1
+atom 39	radius 0.5 name particle1
+atom 40	radius 0.5 name particle1
+atom 41	radius 0.5 name particle1
+atom 42	radius 0.5 name particle1
+atom 43	radius 0.5 name particle1
+atom 44	radius 0.5 name particle1
+atom 45	radius 0.5 name particle1
+atom 46	radius 0.5 name particle1
+atom 47	radius 0.5 name particle1
+atom 48	radius 0.5 name particle1
+atom 49	radius 0.5 name particle1
+atom 50	radius 0.5 name particle1
+atom 51	radius 0.5 name particle1
+atom 52	radius 0.5 name particle1
+atom 53	radius 0.5 name particle1
+atom 54	radius 0.5 name particle1
+atom 55	radius 0.5 name particle1
+atom 56	radius 0.5 name particle1
+atom 57	radius 0.5 name particle1
+atom 58	radius 0.5 name particle1
+atom 59	radius 0.5 name particle1
+atom 60	radius 0.5 name particle1
+atom 61	radius 0.5 name particle1
+atom 62	radius 0.5 name particle1
+atom 63	radius 0.5 name particle1
+atom 64	radius 0.5 name particle2
+atom 65	radius 0.5 name particle2
+atom 66	radius 0.5 name particle2
+atom 67	radius 0.5 name particle2
+atom 68	radius 0.5 name particle2
+atom 69	radius 0.5 name particle2
+atom 70	radius 0.5 name particle2
+atom 71	radius 0.5 name particle2
+atom 72	radius 0.5 name particle2
+atom 73	radius 0.5 name particle2
+atom 74	radius 0.5 name particle2
+atom 75	radius 0.5 name particle2
+atom 76	radius 0.5 name particle2
+timestep indexed
+pbc 5.0 5.0 5.0
+39 0.0 0.0 0.0
+41 0.0 0.0 1.0
+38 0.0 0.0 2.0
+8 0.0 0.0 3.0
+65 0.0 0.0 4.0
+30 0.0 1.0 1.0
+15 0.0 1.0 2.0
+58 0.0 1.0 4.0
+27 0.0 2.0 0.0
+60 0.0 2.0 1.0
+43 0.0 2.0 3.0
+45 0.0 3.0 2.0
+57 0.0 3.0 4.0
+10 0.0 4.0 1.0
+23 0.0 4.0 3.0
+9 0.0 4.0 4.0
+4 1.0 0.0 0.0
+42 1.0 0.0 1.0
+62 1.0 0.0 2.0
+28 1.0 1.0 2.0
+35 1.0 2.0 1.0
+52 1.0 2.0 2.0
+59 1.0 2.0 4.0
+16 1.0 3.0 0.0
+1 1.0 3.0 1.0
+75 1.0 3.0 2.0
+17 1.0 3.0 4.0
+3 1.0 4.0 0.0
+67 1.0 4.0 1.0
+2 1.0 4.0 2.0
+69 2.0 0.0 0.0
+70 2.0 0.0 3.0
+63 2.0 1.0 0.0
+24 2.0 1.0 1.0
+7 2.0 1.0 3.0
+72 2.0 1.0 4.0
+53 2.0 2.0 0.0
+74 2.0 2.0 1.0
+33 2.0 2.0 4.0
+44 2.0 3.0 1.0
+20 2.0 3.0 2.0
+61 2.0 3.0 3.0
+66 2.0 3.0 4.0
+29 2.0 4.0 0.0
+64 2.0 4.0 1.0
+36 2.0 4.0 4.0
+11 3.0 0.0 1.0
+76 3.0 1.0 1.0
+13 3.0 1.0 2.0
+48 3.0 1.0 3.0
+71 3.0 2.0 3.0
+5 3.0 2.0 4.0
+21 3.0 3.0 0.0
+40 3.0 4.0 2.0
+6 3.0 4.0 3.0
+55 3.0 4.0 4.0
+34 4.0 0.0 1.0
+19 4.0 0.0 2.0
+12 4.0 1.0 0.0
+56 4.0 1.0 3.0
+68 4.0 1.0 4.0
+73 4.0 2.0 1.0
+32 4.0 3.0 2.0
+37 4.0 3.0 3.0
+46 4.0 4.0 0.0
+47 4.0 4.0 1.0
+49 4.0 4.0 2.0
+26 4.0 4.0 3.0
+54 4.0 4.0 4.0
