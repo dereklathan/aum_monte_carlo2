@@ -14,15 +14,9 @@ class Cube{
 		int temperature;
 		double ** interaction_factor;
 
-		double calculate_pot_energy_pbc(int,int,int,int,int,int);
-		//calculates potential energy of system and returns it. first 
-		//3 integers are coordinates for particle. second 3 are where 
-		//the particle will be when energy is calculated.
 	public:		
 		Cube();
-		//constructor
-		double calculate_pot_energy_pbc();
-		//potential energy for periodic boundary conditions		
+		//constructor		
 		void set_domain(int, int, int);
 		//sets size of cube
 		int get_domain_x();
@@ -50,7 +44,15 @@ class Cube{
 		//checks if a space is occupied given x,y,z coordinates respectively
 		int get_population();
 		//returns number of atoms in cube
-		void advance_timestep();
+		void advance_timestep_pbc();
+		double calculate_pot_energy_pbc();
+		//calculates potential energy of system for periodic
+		//boundary conditions
+		double calculate_pot_energy_pbc(int,int,int,int,int,int);
+		//calculates potential energy of system for periodic boundary 
+		//conditions and returns it. first 3 integers are coordinates 
+		//for particle. second 3 are where the particle will be when 
+		//energy is calculated.
 
 };
 #endif

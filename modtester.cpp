@@ -30,8 +30,11 @@ int main(){
 	cube.set_interaction_factor(reader.get_particle_types());
 	//write initial positions to vtf file
 	writer.write_timestep(cube);
-	cout << cube.calculate_pot_energy_pbc() << endl;
-	for(int c=0;c<cube.get_domain_x();c++){
+	for(int c=0;c<reader.gettimesteps();c++){
+		cube.advance_timestep_pbc();
+		writer.write_timestep(cube);
+	}
+/*	for(int c=0;c<cube.get_domain_x();c++){
 		for(int d=0;d<cube.get_domain_y();d++){
 			for(int e=0;e<cube.get_domain_z();e++){
 				if(cube.get_occupy_space(c,d,e)){
@@ -50,5 +53,5 @@ int main(){
 			}
 		}
 	}
-	return 0;		
+*/	return 0;		
 }
