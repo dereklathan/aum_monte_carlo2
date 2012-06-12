@@ -17,8 +17,8 @@ class Infile_reader{
 		unsigned int * mass;
 		string * particle_name;
 		bool * fixed;
-		int * charge;
-		int boundary_conditions;
+		int * strength;
+		int boundary_conditions[3];
 		
 	public:
 		Infile_reader();
@@ -35,8 +35,9 @@ class Infile_reader{
 		//returns percentage of domain to fill with atoms
 		int gettimesteps();
 		//returns number of timesteps 	
-		int get_boundary_conditions();
-		//returns integer representing boundary conditions
+		int* get_boundary_conditions();
+		//returns array of integers representing boundary conditions
+		//for x,y,z axes respectively
 		int get_graph_interval();
 		//returns how many timesteps should pass before writing graph
 		int get_particle_types();
@@ -45,14 +46,11 @@ class Infile_reader{
 		//returns array of particle names
 		unsigned int* get_mass();
 		//returns array of particle masses;
-		int* get_charge();
-		//returns array of particle charges;
+		int* get_strength();
+		//returns array of particle interaction strengths;
 		bool* is_fixed();
 		//returns bool array that tells if location of particle is fixed
-		double calculate_pot_energy(int,int,int,int,int,int);
-		//calculates potential energy of system and returns it. first 
-		//3 integers are coordinates for particle. second 3 are where 
-		//the particle will be when energy is calculated.
+
 		
 };
 #endif

@@ -30,8 +30,17 @@ void Infile_reader::setData(){
 		particle_name[c]="";
 	mass = new unsigned int [particle_types];
 	percentdomainfill = new float [particle_types];
-	charge = new int [particle_types];
+	strength = new int [particle_types];
 	fixed = new bool [particle_types];
+	while(reader.peek()!='\n')
+		reader.get();
+	reader >> boundary_conditions[0];
+	while(reader.peek()!='\n')
+		reader.get();
+	reader >> boundary_conditions[1];
+	while(reader.peek()!='\n')
+		reader.get();
+	reader >> boundary_conditions[2];
 	while(reader.peek()!='\n')
 		reader.get();
 	reader.get();
@@ -49,7 +58,7 @@ void Infile_reader::setData(){
 		reader >> percentdomainfill[c];
 		while(reader.peek()!='\n')
 			reader.get();
-		reader >> charge[c];
+		reader >> strength[c];
 		while(reader.peek()!='\n')
 			reader.get();
 		reader >> fixed[c];
@@ -90,12 +99,17 @@ unsigned int* Infile_reader::get_mass(){
 	return pointer;
 }
 
-int* Infile_reader::get_charge(){
-	int* pointer = charge;
+int* Infile_reader::get_strength(){
+	int* pointer = strength;
 	return pointer;
 }
 
 bool* Infile_reader::is_fixed(){
 	bool* pointer = fixed;
+	return pointer;
+}
+
+int* Infile_reader::get_boundary_conditions(){
+	int* pointer = boundary_conditions;
 	return pointer;
 }

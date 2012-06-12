@@ -12,10 +12,17 @@ class Cube{
 		int domain_x, domain_y, domain_z;
 		bool all_attempted();
 		int temperature;
+		double ** interaction_factor;
+
+		double calculate_pot_energy_pbc(int,int,int,int,int,int);
+		//calculates potential energy of system and returns it. first 
+		//3 integers are coordinates for particle. second 3 are where 
+		//the particle will be when energy is calculated.
 	public:		
 		Cube();
 		//constructor
-		
+		double calculate_pot_energy_pbc();
+		//potential energy for periodic boundary conditions		
 		void set_domain(int, int, int);
 		//sets size of cube
 		int get_domain_x();
@@ -28,6 +35,7 @@ class Cube{
 		//returns volume of cube
 		void set_temp(int t);
 		//set temperature of cube
+		void set_interaction_factor(int);
 		int get_temp();
 		//returns temperature of cube
 		Atom insert_atom(Atom&);

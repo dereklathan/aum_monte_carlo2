@@ -14,8 +14,9 @@ class Atom{
 		bool attempted;
 		bool exists;
 		bool fixed;
-		double charge;
+		double strength;
 		int index;
+		int atom_type_num;
 
 	public:
 		Atom();
@@ -48,10 +49,10 @@ class Atom{
 		//calculates grav_pot_energy based on mass and z_pos
 		unsigned int get_grav_pot_energy();
 		//returns grav_pot_energy
-		void set_charge(double);
-		//sets charge
-		double get_charge();
-		//returns charge
+		void set_strength(double);
+		//sets interaction strength factor
+		double get_strength();
+		//returns interaction strength factor
 		void set_exists(bool);
 		//if exists should be set to true, false otherwise
 		bool get_exists();
@@ -64,6 +65,10 @@ class Atom{
 		//set unique integer for tracking
 		int get_index();
 		//returns unique integer for tracking
+		void set_type_num(int);
+		//set type number for interaction factor matrix
+		int get_type_num();
+		//returns type number for interaction factor matrix
 		
 };
 

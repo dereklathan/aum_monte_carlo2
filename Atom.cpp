@@ -69,17 +69,21 @@ bool Atom::get_attempted(){
 	return attempted;
 }
 
-void Atom::set_charge(double val){
-	charge=val;
+void Atom::set_strength(double val){
+	strength=val;
 }
 
-double Atom::get_charge(){
-	return charge;
+double Atom::get_strength(){
+	return strength;
 }
 
 void Atom::set_index(int i){index=i;}
 
 int Atom::get_index(){return index;}
+
+void Atom::set_type_num(int t){atom_type_num=t;}
+
+int Atom::get_type_num(){return atom_type_num;}
 
 
 

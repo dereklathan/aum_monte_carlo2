@@ -14,7 +14,7 @@ void Cube::set_domain(int x, int y, int z){
 	for(int c=0;c<x;c++){
 		atomlocation[c] = new Atom*[y];
 	}
-	for(int c=0;c<y;c++){
+	for(int c=0;c<x;c++){
 		for(int d=0;d<=y;d++)
 			atomlocation[c][d] = new Atom[z];
 	}	
@@ -108,4 +108,84 @@ void Cube::advance_timestep(){
 			
 		}
 	}
+}
+
+void Cube::set_interaction_factor(int types){
+	interaction_factor = new double*[types];
+	for(int c=0;c<types;c++)
+		interaction_factor[c] = new double[types];
+	for(int c=0;c<types;c++){
+		for(int d=0;d<types;d++)
+			cin >> interaction_factor[c][d];
+	}
+}
+
+double Cube::calculate_pot_energy_pbc(){
+	double grav_energy=0;
+	double internal_energy=0;
+
+	for(int c=0;c<domain_x;c++){
+		for(int d=0;d<domain_y;d++){
+			for(int e=0;e<domain_z;e++){
+				if(atomlocation[c][d][e].get_exists()){
+					grav_energy+=(e*atomlocation[c][d][e].get_mass());
+					if(c==0){
+						if(atomlocation[domain_x-1][d][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[domain_x-1][d][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[domain_x-1][d][e].get_type_num()]);
+						if(atomlocation[1][d][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[1][d][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[1][d][e].get_type_num()]);					
+					}
+					else if(c==domain_x-1){
+						if(atomlocation[0][d][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[0][d][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[0][d][e].get_type_num()]);
+						if(atomlocation[domain_x-2][d][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[domain_x-2][d][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[domain_x-2][d][e].get_type_num()]);
+					}
+					else{
+						if(atomlocation[c+1][d][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c+1][d][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c+1][d][e].get_type_num()]);
+						if(atomlocation[c-1][d][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c-1][d][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c-1][d][e].get_type_num()]);
+					}
+					if(d==0){
+						if(atomlocation[c][domain_y-1][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][domain_y-1][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][domain_y-1][e].get_type_num()]);
+						if(atomlocation[c][1][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][1][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][1][e].get_type_num()]);
+					}
+					else if(d==domain_y-1){
+						if(atomlocation[c][0][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][0][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][0][e].get_type_num()]);
+						if(atomlocation[c][domain_y-2][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][domain_y-2][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][domain_y-2][e].get_type_num()]);
+					}
+					else{
+						if(atomlocation[c][d+1][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d+1][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d+1][e].get_type_num()]);
+						if(atomlocation[c][d-1][e].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d-1][e].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d-1][e].get_type_num()]);
+					}
+					if(e==0){
+						if(atomlocation[c][d][domain_z-1].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d][domain_z-1].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d][domain_z-1].get_type_num()]);
+						if(atomlocation[c][d][1].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d][1].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d][1].get_type_num()]);
+					}
+					else if(e==domain_z-1){
+						if(atomlocation[c][d][0].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d][0].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d][0].get_type_num()]);
+						if(atomlocation[c][d][domain_z-2].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d][domain_z-2].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d][domain_z-2].get_type_num()]);
+					}
+					else{
+						if(atomlocation[c][d][e+1].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d][e+1].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d][e+1].get_type_num()]);
+						if(atomlocation[c][d][e-1].get_exists())
+							internal_energy+=(atomlocation[c][d][e].get_strength()*atomlocation[c][d][e-1].get_strength()*interaction_factor[atomlocation[c][d][e].get_type_num()][atomlocation[c][d][e-1].get_type_num()]);
+					}
+				}
+			}
+		}
+	}
+	return grav_energy + (internal_energy/2);
 }
