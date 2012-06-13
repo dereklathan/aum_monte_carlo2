@@ -1,5 +1,6 @@
 test#name of vtf file
 5 5 5#x y z lengths for cube
+10#temperature of cube
 1000#number of timesteps
 100#graph interval (create graph every time this many timesteps have passed)
 1#how many particle types to define
@@ -9,7 +10,7 @@ test#name of vtf file
 
 particle1#name of first particle type
 1#mass of first particle
-20#percent of domain to fill with this particle type
+50#percent of domain to fill with this particle type
 2#interaction strength factor
 0#1 if fixed location 0 if not
 
