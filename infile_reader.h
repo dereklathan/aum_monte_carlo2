@@ -19,6 +19,7 @@ class Infile_reader{
 		bool * fixed;
 		int * strength;
 		int boundary_conditions[3];
+		double temperature;
 		
 	public:
 		Infile_reader();
@@ -50,6 +51,8 @@ class Infile_reader{
 		//returns array of particle interaction strengths;
 		bool* is_fixed();
 		//returns bool array that tells if location of particle is fixed
+		double get_temp();
+		//returns temperature of cube
 
 		
 };

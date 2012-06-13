@@ -34,7 +34,9 @@ int main(){
 		cube.advance_timestep_pbc();
 		writer.write_timestep(cube);
 	}
-/*	for(int c=0;c<cube.get_domain_x();c++){
+//	writer.close_file();
+	cout << "here\n";
+	for(int c=0;c<cube.get_domain_x();c++){
 		for(int d=0;d<cube.get_domain_y();d++){
 			for(int e=0;e<cube.get_domain_z();e++){
 				if(cube.get_occupy_space(c,d,e)){
@@ -53,5 +55,5 @@ int main(){
 			}
 		}
 	}
-*/	return 0;		
+	return 0;		
 }

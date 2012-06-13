@@ -23,6 +23,6 @@ class vtf_file_writer{
 		void define_atom(Atom);
 		//defines all atoms in list<Atom>
 		void write_timestep(Cube);
-		//sets initial positions of atoms and unitcell params
+		//sets positions of atoms and unitcell params
 };
 #endif

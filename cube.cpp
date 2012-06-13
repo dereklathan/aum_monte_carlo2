@@ -17,7 +17,7 @@ void Cube::set_domain(int x, int y, int z){
 	for(int c=0;c<x;c++){
 		for(int d=0;d<=y;d++)
 			atomlocation[c][d] = new Atom[z];
-	}	
+	}
 }
 
 int Cube::get_domain_x(){
@@ -41,7 +41,7 @@ Atom Cube::insert_atom(Atom &atom){
 	xval=rand()%get_domain_x();
 	yval=rand()%get_domain_y();
 	zval=rand()%get_domain_z();
-	if(atomlocation[xval][yval][zval].get_exists()){
+	while(atomlocation[xval][yval][zval].get_exists()){
 		xval=rand()%get_domain_x();
 		yval=rand()%get_domain_y();
 		zval=rand()%get_domain_z();
@@ -52,8 +52,10 @@ Atom Cube::insert_atom(Atom &atom){
 	atom.set_z_pos(zval);
 	if(atom.is_fixed())
 		atom.set_attempted(true);
-	population++;
+	else
+		atom.set_attempted(false);
 	atom.set_index(population);
+	population++;
 	atomlocation[xval][yval][zval]=atom;
 	return atom;
 }
@@ -121,8 +123,9 @@ void Cube::advance_timestep_pbc(){
 		else if(z2<0) z2=domain_z-1;
 		else if(z2>=domain_z) z2=0;
 		if(atomlocation[x1][y1][z1].get_exists() && !atomlocation[x1][y1][z1].get_attempted() && !atomlocation[x2][y2][z2].get_exists() && !atomlocation[x1][y1][z1].is_fixed()){
+			atomlocation[x1][y1][z1].set_attempted(true);
 			if(calculate_pot_energy_pbc(x1,y1,z1,x2,y2,z2)<=calculate_pot_energy_pbc()){
-				atomlocation[x2][y2][z2]=atomlocation[x1][y2][z2];
+				atomlocation[x2][y2][z2]=atomlocation[x1][y1][z1];
 				atomlocation[x1][y1][z1].set_exists(false);
 				atomlocation[x2][y2][z2].set_exists(true);
 				atomlocation[x2][y2][z2].set_x_pos(x2);
@@ -130,12 +133,15 @@ void Cube::advance_timestep_pbc(){
 				atomlocation[x2][y2][z2].set_z_pos(z2);
 			}			
 		}
-		atomlocation[x1][y1][z1].set_attempted(true);
+		else
+			atomlocation[x1][y1][z1].set_attempted(true);
 	}
 	for(int c=0;c<domain_x;c++){
 		for(int d=0;d<domain_y;d++){
-			for(int e=0;e<domain_z;e++)
-				atomlocation[c][d][e].set_attempted(false);
+			for(int e=0;e<domain_z;e++){
+				if(atomlocation[c][d][e].get_exists() && !atomlocation[c][d][e].is_fixed())
+					atomlocation[c][d][e].set_attempted(false);
+			}
 		}
 	}
 }
@@ -216,18 +222,26 @@ double Cube::calculate_pot_energy_pbc(){
 			}
 		}
 	}
+	cout << grav_energy + (internal_energy/2) << endl;
 	return grav_energy + (internal_energy/2);
 }
 
 double Cube::calculate_pot_energy_pbc(int x1, int y1, int z1, int x2, int y2, int z2){
 	double grav_energy=0;
 	double internal_energy=0;
-	Atom *** temp=atomlocation;
+	Atom temp[domain_x][domain_y][domain_z];
+	for(int c=0;c<domain_x;c++){
+		for(int d=0;d<domain_y;d++){
+			for(int e=0;e<domain_z;e++)
+				temp[c][d][e]=atomlocation[c][d][e];		
+		}
+	}
 	if(x1>=0 && x1<domain_x && x2>=0 && x2<domain_x && y1>=0 && y1<domain_y && y2>=0 && y2<domain_y && z1>=0 && z1<domain_z && z2>=0 && z2<domain_z && temp[x1][y1][z1].get_exists() && !temp[x2][y2][z2].get_exists() && !temp[x2][y2][z2].is_fixed()){
 		temp[x2][y2][z2]=temp[x1][y1][z1];
 		temp[x2][y2][z2].set_x_pos(x2);
 		temp[x2][y2][z2].set_y_pos(y2);
 		temp[x2][y2][z2].set_z_pos(z2);
+		temp[x1][y1][z1].set_exists(false);
 		for(int c=0;c<domain_x;c++){
 			for(int d=0;d<domain_y;d++){
 				for(int e=0;e<domain_z;e++){
@@ -291,8 +305,10 @@ double Cube::calculate_pot_energy_pbc(int x1, int y1, int z1, int x2, int y2, in
 				}
 			}
 		}
+		cout << grav_energy + (internal_energy/2) << endl;
 		return grav_energy + (internal_energy/2);
 	}
 	else
+		cout << 1.79769e+308 << endl;
 		return 1.79769e+308;	
 }

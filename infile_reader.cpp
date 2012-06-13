@@ -18,6 +18,9 @@ void Infile_reader::setData(){
 		reader >> unitcellsize[c];
 	while(reader.peek()!='\n')
 		reader.get();
+	reader >> temperature;
+	while(reader.peek()!='\n')
+		reader.get();
 	reader >> timesteps;
 	while(reader.peek()!='\n')
 		reader.get();
@@ -113,3 +116,6 @@ int* Infile_reader::get_boundary_conditions(){
 	int* pointer = boundary_conditions;
 	return pointer;
 }
+
+double Infile_reader::get_temp(){return temperature;}
+
