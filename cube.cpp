@@ -60,12 +60,21 @@ Atom Cube::insert_atom(Atom &atom){
 	return atom;
 }
 
-bool Cube::insert_atom(Atom atom, int x, int y, int z){
+bool Cube::insert_atom(Atom &atom, int x, int y, int z){
 	if(atomlocation[x][y][z].get_exists())
 		return false;
 	else{
 		atom.set_exists(true);
 		atomlocation[x][y][z]=atom;
+		atom.set_x_pos(x);
+		atom.set_y_pos(y);
+		atom.set_z_pos(z);
+		if(atom.is_fixed())
+			atom.set_attempted(true);
+		else
+			atom.set_attempted(false);
+		atom.set_index(population);
+		population++;
 		return true;
 	}
 }
@@ -124,7 +133,7 @@ void Cube::advance_timestep_pbc(){
 		else if(z2>=domain_z) z2=0;
 		if(atomlocation[x1][y1][z1].get_exists() && !atomlocation[x1][y1][z1].get_attempted() && !atomlocation[x2][y2][z2].get_exists() && !atomlocation[x1][y1][z1].is_fixed()){
 			atomlocation[x1][y1][z1].set_attempted(true);
-			if(calculate_pot_energy_pbc(x1,y1,z1,x2,y2,z2)<=calculate_pot_energy_pbc()){
+			if(calculate_pot_energy_pbc(x1,y1,z1,x2,y2,z2)<=calculate_pot_energy_pbc() || can_still_move()){
 				atomlocation[x2][y2][z2]=atomlocation[x1][y1][z1];
 				atomlocation[x1][y1][z1].set_exists(false);
 				atomlocation[x2][y2][z2].set_exists(true);
@@ -222,7 +231,6 @@ double Cube::calculate_pot_energy_pbc(){
 			}
 		}
 	}
-	cout << grav_energy + (internal_energy/2) << endl;
 	return grav_energy + (internal_energy/2);
 }
 
@@ -305,10 +313,20 @@ double Cube::calculate_pot_energy_pbc(int x1, int y1, int z1, int x2, int y2, in
 				}
 			}
 		}
-		cout << grav_energy + (internal_energy/2) << endl;
 		return grav_energy + (internal_energy/2);
 	}
 	else
-		cout << 1.79769e+308 << endl;
 		return 1.79769e+308;	
+}
+
+void Cube::set_temp(double t){temperature=t;}
+
+double Cube::get_temp(){return temperature;}
+
+bool Cube::can_still_move(){
+	double r = rand()/(double)RAND_MAX;
+	if(r<=(double)pow(2.71828,-1/temperature))
+		return true;
+	else
+		return false;
 }

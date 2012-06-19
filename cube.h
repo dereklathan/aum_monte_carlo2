@@ -3,6 +3,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 #include "Atom.h"
 
 class Cube{
@@ -27,14 +28,14 @@ class Cube{
 		//returns length of z axis
 		int get_volume();
 		//returns volume of cube
-		void set_temp(int t);
+		void set_temp(double t);
 		//set temperature of cube
 		void set_interaction_factor(int);
-		int get_temp();
+		double get_temp();
 		//returns temperature of cube
 		Atom insert_atom(Atom&);
 		//inserts atom into random location in cube and returns it
-		bool insert_atom(Atom, int, int, int);
+		bool insert_atom(Atom&, int, int, int);
 		//attempts to insert atom into specified location if possible. returns true if successful. false otherwise.
 		Atom get_atom(int, int, int);
 		//returns atom from specified coordinates
@@ -53,6 +54,7 @@ class Cube{
 		//conditions and returns it. first 3 integers are coordinates 
 		//for particle. second 3 are where the particle will be when 
 		//energy is calculated.
+		bool can_still_move();
 
 };
 #endif
