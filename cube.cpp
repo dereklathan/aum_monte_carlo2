@@ -97,43 +97,52 @@ bool Cube::get_occupy_space(int x, int y, int z){
 int Cube::get_population(){return population;}
 
 bool Cube::all_attempted(){
-	for(int c=0;c<domain_x;c++){
-		for(int d=0;d<domain_y;d++){
-			for(int e=0;e<domain_z;e++){
-				if(atomlocation[c][d][e].get_exists() && !atomlocation[c][d][e].get_attempted())
-					return false;
-				}
-			}
-	}
-	return true;
+	if(left_to_attempt==0)
+		return true;
+	else
+		return false;
+
 }
 
 void Cube::advance_timestep_pbc(){
 	int x1, y1, z1, x2, y2, z2;
 	int rand_axis, rand_dir, dir;
+	left_to_attempt=population;
+	for(int c=0;c<domain_x;c++){
+		for(int d=0;d<domain_y;d++){
+			for(int e=0;e<domain_z;e++){
+				if(atomlocation[c][d][e].get_exists() && !atomlocation[c][d][e].is_fixed())
+					atomlocation[c][d][e].set_attempted(false);
+				else if(atomlocation[c][d][e].is_fixed()){
+					left_to_attempt--;
+				}
+			}
+		}
+	}
 	while(!all_attempted()){
 		x1=rand()%domain_x;
 		y1=rand()%domain_y;
 		z1=rand()%domain_z;
-		rand_axis=rand()%3;
-		rand_dir=rand()%2;
-		x2=x1;
-		y2=y1;
-		z2=z1;
-		if(rand_dir==0)	dir=1;
-		else dir=-1;
-		if(rand_axis==0) x2+=dir;
-		else if(rand_axis==1) y2+=dir;
-		else z2+=dir;
-		if(x2<0) x2=domain_x-1;
-		else if(x2>=domain_x) x2=0;
-		else if(y2<0) y2=domain_y-1;
-		else if(y2>=domain_y) y2=0;
-		else if(z2<0) z2=domain_z-1;
-		else if(z2>=domain_z) z2=0;
-		if(atomlocation[x1][y1][z1].get_exists() && !atomlocation[x1][y1][z1].get_attempted() && !atomlocation[x2][y2][z2].get_exists() && !atomlocation[x1][y1][z1].is_fixed()){
+		if(atomlocation[x1][y1][z1].get_exists() && !atomlocation[x1][y1][z1].get_attempted()){
+			rand_axis=rand()%3;
+			rand_dir=rand()%2;
+			x2=x1;
+			y2=y1;
+			z2=z1;
+			if(rand_dir==0)	dir=1;
+			else dir=-1;
+			if(rand_axis==0) x2+=dir;
+			else if(rand_axis==1) y2+=dir;
+			else z2+=dir;
+			if(x2<0) x2=domain_x-1;
+			else if(x2>=domain_x) x2=0;
+			else if(y2<0) y2=domain_y-1;
+			else if(y2>=domain_y) y2=0;
+			else if(z2<0) z2=domain_z-1;
+			else if(z2>=domain_z) z2=0;
 			atomlocation[x1][y1][z1].set_attempted(true);
-			if(calculate_pot_energy_pbc(x1,y1,z1,x2,y2,z2)<=calculate_pot_energy_pbc() || can_still_move()){
+			left_to_attempt--;
+			if(!atomlocation[x2][y2][z2].get_exists() && (calculate_pot_energy_pbc(x1,y1,z1,x2,y2,z2)<=calculate_pot_energy_pbc() || can_still_move())){
 				atomlocation[x2][y2][z2]=atomlocation[x1][y1][z1];
 				atomlocation[x1][y1][z1].set_exists(false);
 				atomlocation[x2][y2][z2].set_exists(true);
@@ -142,17 +151,8 @@ void Cube::advance_timestep_pbc(){
 				atomlocation[x2][y2][z2].set_z_pos(z2);
 			}			
 		}
-		else
-			atomlocation[x1][y1][z1].set_attempted(true);
 	}
-	for(int c=0;c<domain_x;c++){
-		for(int d=0;d<domain_y;d++){
-			for(int e=0;e<domain_z;e++){
-				if(atomlocation[c][d][e].get_exists() && !atomlocation[c][d][e].is_fixed())
-					atomlocation[c][d][e].set_attempted(false);
-			}
-		}
-	}
+
 }
 
 void Cube::set_interaction_factor(int types){
@@ -325,7 +325,7 @@ double Cube::get_temp(){return temperature;}
 
 bool Cube::can_still_move(){
 	double r = rand()/(double)RAND_MAX;
-	if(r<=(double)pow(2.71828,-1/temperature))
+	if(r<=(double)pow((double)2.71828,(double)-1/temperature))
 		return true;
 	else
 		return false;

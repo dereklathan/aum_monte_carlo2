@@ -5,17 +5,21 @@
 #include <cstdlib>
 #include <cmath>
 #include "Atom.h"
+#include <omp.h>
 
 class Cube{
 	private:
 		Atom *** atomlocation;
 		int population;
+		int left_to_attempt;
 		int domain_x, domain_y, domain_z;
 		bool all_attempted();
 		int temperature;
 		double ** interaction_factor;
 
-	public:		
+	public:
+		bool attempted[];
+		int num_threads;		
 		Cube();
 		//constructor		
 		void set_domain(int, int, int);
