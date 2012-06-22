@@ -1,8 +1,8 @@
-work : modtester.o cube.o Atom.o infile_reader.o vtf_file_writer.o dat_file_writer.o
-	g++ modtester.o cube.o Atom.o infile_reader.o vtf_file_writer.o dat_file_writer.o -o work
+work : aum_monte_carlo2.o cube.o Atom.o infile_reader.o vtf_file_writer.o dat_file_writer.o
+	g++ aum_monte_carlo2.o cube.o Atom.o infile_reader.o vtf_file_writer.o dat_file_writer.o -o work
 
-modtester.o : modtester.cpp
-	g++ -c modtester.cpp
+aum_monte_carlo2.o : aum_monte_carlo2.cpp
+	g++ -c aum_monte_carlo2.cpp
 
 cube.o : cube.cpp cube.h
 	g++ -c cube.cpp
