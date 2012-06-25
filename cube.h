@@ -16,6 +16,7 @@ class Cube{
 		bool all_attempted();
 		int temperature;
 		double ** interaction_factor;
+		int fixedcount;
 
 	public:
 		bool attempted[];

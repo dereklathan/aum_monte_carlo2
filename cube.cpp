@@ -4,6 +4,7 @@ using namespace std;
 Cube::Cube(){
 	srand(time(NULL));
 	population=0;
+	fixedcount=0;
 }
 
 void Cube::set_domain(int x, int y, int z){
@@ -50,8 +51,10 @@ Atom Cube::insert_atom(Atom &atom){
 	atom.set_x_pos(xval);
 	atom.set_y_pos(yval);
 	atom.set_z_pos(zval);
-	if(atom.is_fixed())
+	if(atom.is_fixed()){
 		atom.set_attempted(true);
+		fixedcount++;
+	}
 	else
 		atom.set_attempted(false);
 	atom.set_index(population);
@@ -105,20 +108,10 @@ bool Cube::all_attempted(){
 }
 
 void Cube::advance_timestep_pbc(){
+	int start_time=time(NULL);
 	int x1, y1, z1, x2, y2, z2;
 	int rand_axis, rand_dir, dir;
-	left_to_attempt=population;
-	for(int c=0;c<domain_x;c++){
-		for(int d=0;d<domain_y;d++){
-			for(int e=0;e<domain_z;e++){
-				if(atomlocation[c][d][e].get_exists() && !atomlocation[c][d][e].is_fixed())
-					atomlocation[c][d][e].set_attempted(false);
-				else if(atomlocation[c][d][e].is_fixed()){
-					left_to_attempt--;
-				}
-			}
-		}
-	}
+	left_to_attempt=population-fixedcount;
 	while(!all_attempted()){
 		x1=rand()%domain_x;
 		y1=rand()%domain_y;
@@ -152,6 +145,15 @@ void Cube::advance_timestep_pbc(){
 			}			
 		}
 	}
+	for(int c=0;c<domain_x;c++){
+		for(int d=0;d<domain_y;d++){
+			for(int e=0;e<domain_z;e++){
+				if(atomlocation[c][d][e].get_exists() && !atomlocation[c][d][e].is_fixed())
+					atomlocation[c][d][e].set_attempted(false);
+			}
+		}
+	}
+	cout << time(NULL)-start_time << endl;
 
 }
 
@@ -237,14 +239,8 @@ double Cube::calculate_pot_energy_pbc(){
 double Cube::calculate_pot_energy_pbc(int x1, int y1, int z1, int x2, int y2, int z2){
 	double grav_energy=0;
 	double internal_energy=0;
-	Atom temp[domain_x][domain_y][domain_z];
-	for(int c=0;c<domain_x;c++){
-		for(int d=0;d<domain_y;d++){
-			for(int e=0;e<domain_z;e++)
-				temp[c][d][e]=atomlocation[c][d][e];		
-		}
-	}
-	if(x1>=0 && x1<domain_x && x2>=0 && x2<domain_x && y1>=0 && y1<domain_y && y2>=0 && y2<domain_y && z1>=0 && z1<domain_z && z2>=0 && z2<domain_z && temp[x1][y1][z1].get_exists() && !temp[x2][y2][z2].get_exists() && !temp[x2][y2][z2].is_fixed()){
+	Atom ***temp = atomlocation;
+	if(true/*x1>=0 && x1<domain_x && x2>=0 && x2<domain_x && y1>=0 && y1<domain_y && y2>=0 && y2<domain_y && z1>=0 && z1<domain_z && z2>=0 && z2<domain_z && temp[x1][y1][z1].get_exists() && !temp[x2][y2][z2].get_exists() && !temp[x2][y2][z2].is_fixed()*/){
 		temp[x2][y2][z2]=temp[x1][y1][z1];
 		temp[x2][y2][z2].set_x_pos(x2);
 		temp[x2][y2][z2].set_y_pos(y2);
