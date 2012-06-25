@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include "Atom.h"
-#include <omp.h>
+#include <vector>
 
 class Cube{
 	private:
