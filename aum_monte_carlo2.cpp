@@ -38,7 +38,6 @@ int main(){
 		atom.set_strength(reader.get_strength()[c]);
 		atom.set_mass(reader.get_mass()[c]);
 		atom.set_fixed(reader.is_fixed()[c]);
-
 		for(int d=0;d<cube.get_volume()*(reader.getpercentdomainfill()[c]/(float)100);d++)
 		{
 			writer.define_atom(cube.insert_atom(atom));
@@ -58,7 +57,7 @@ int main(){
 			graph_interval=0;
 		}
 	}
-	cout << "here\n";
+
 //	writer.close_file(); review this
 
 /*	for(int c=0;c<cube.get_domain_x();c++){
