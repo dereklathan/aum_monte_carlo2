@@ -21,7 +21,10 @@ class vtf_file_writer{
 		void close_file();
 		//closes output file
 		void define_atom(Atom);
-		//defines all atoms in list<Atom>
+		//defines an atom
+		void define_atoms(int, int, string);
+		//defines a range of atoms with indexes from first
+		//int to second int of type string 
 		void write_timestep(Cube);
 		//sets positions of atoms and unitcell params
 };

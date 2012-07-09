@@ -8,7 +8,11 @@ vtf_file_writer::vtf_file_writer(string filename){
 void vtf_file_writer::close_file(){outfile.close();}
 
 void vtf_file_writer::define_atom(Atom atom){
-	outfile << "atom " << atom.get_index() << "	radius 0.5 " << "type " << atom.get_name() << endl;
+	outfile << "atom " << atom.get_index() << " radius 0.5 " << "type " << atom.get_name() << endl;
+}
+
+void vtf_file_writer::define_atoms(int m, int n, string type){
+	outfile << "atom " << m << ":" << n << " radius 0.5 type " << type << endl;
 }
 
 void vtf_file_writer::write_timestep(Cube cube){
@@ -25,4 +29,6 @@ void vtf_file_writer::write_timestep(Cube cube){
 	}
 	
 }
+
+
 
